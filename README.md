@@ -49,7 +49,13 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
 
-### Features used
+### Packages used
 
 - **[Spatie Laravel Permissions](https://spatie.be/docs/laravel-permission/v3/introduction)**
 - **[AdminLTE 3](https://adminlte.io/themes/v3/)**
+
+### Features used
+
+- **[Faker Generator]
+- **[Eager Loading]
+
