@@ -18,4 +18,10 @@ Route::get('/', function () {
 });
 
 
+Route::resource('users', 'UserController');
+Route::post('/users/delete/{id}', 'UserController@delete');
+
 Route::get('/dashboard','HomeController@index');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
