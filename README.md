@@ -56,6 +56,6 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 ### Features used
 
-- **[Faker Generator]
-- **[Eager Loading]
+- Faker Generator
+- Eager Loading
 
