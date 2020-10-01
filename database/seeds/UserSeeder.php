@@ -17,8 +17,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'username' => 'Admin',
-                'first_name' => 'Admin',
-                'last_name' => 'Admin',
+                'fullname' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('111111'),
                 'created_at' => Carbon::now(),
@@ -26,9 +25,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'username' => 'firstuser',
-                'first_name' => 'First',
-                'last_name' => 'Last',
-                'email' => 'firstuser@email.com',
+                'fullname' => 'Full Name',
+                'email' => 'fulluser@email.com',
                 'password' => bcrypt('111111'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()

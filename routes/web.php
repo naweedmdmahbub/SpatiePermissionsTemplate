@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 
-Route::resource('users', 'UserController');
+Route::resource('users', 'UserController')->middleware('auth');
 Route::post('/users/delete/{id}', 'UserController@delete');
 
 Route::get('/dashboard','HomeController@index');
