@@ -14,6 +14,7 @@
 
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        {!! Toastr::message() !!}
         @yield('content')
     </div>
     <!-- /.content-wrapper -->

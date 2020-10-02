@@ -53,6 +53,7 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 - **[Spatie Laravel Permissions](https://spatie.be/docs/laravel-permission/v3/introduction)**
 - **[AdminLTE 3](https://adminlte.io/themes/v3/)**
+- **[laravel-toastr](https://github.com/brian2694/laravel-toastr)**
 
 ### Features used
 

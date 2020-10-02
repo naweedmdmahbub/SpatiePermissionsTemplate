@@ -57,7 +57,9 @@
                                         <td>{{ $user->salary }}</td>
                                         @if(auth('web') )
                                             <td>
+                                                <a href="{{ route('users.show',$user->id) }}" class="btn btn-warning">View</a>
                                                 <a href="{{ route('users.edit',$user->id) }}" class="btn btn-info">Edit</a>
+                                                <button class="btn btn-danger delete-confirm" data-id="{{ $user->id }}">Delete</button>
                                             </td>
                                         @endif
                                     </tr>
@@ -90,6 +92,39 @@
             });
         });
 
+        $(".delete-confirm").click(function () {
+            var id = $(this).data("id");
+            console.log('Clicking Delete',id);
+
+            $.confirm({
+                title: 'Warning!',
+                icon: 'fa fa-warning',
+                content: 'Are you sure? You wont be able to revert this!',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    tryAgain: {
+                        text: 'Click Here',
+                        btnClass: 'btn-red',
+                        action: function(){
+                            $.ajax({
+                                method: 'POST',
+                                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                                url: '/users/delete/' + id,
+                                success: function (response) {
+                                    if(response.msg){
+                                        console.log(response.msg,"ajax success response.msg")
+                                        location.reload()
+                                    }
+                                }
+                            })
+                        }
+                    },
+                    close: function () {
+                    }
+                }
+            });
+        });
     </script>
 
 

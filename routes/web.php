@@ -18,8 +18,13 @@ Route::get('/', function () {
 });
 
 
-Route::resource('users', 'UserController')->middleware('auth');
-Route::post('/users/delete/{id}', 'UserController@delete');
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('users', 'UserController');
+    Route::post('/users/delete/{id}', 'UserController@delete');
+});
+
+//Route::resource('users', 'UserController')->middleware('web');
+//Route::post('/users/delete/{id}', 'UserController@delete')->middleware('web');
 
 Route::get('/dashboard','HomeController@index');
 Auth::routes();

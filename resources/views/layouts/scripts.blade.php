@@ -30,6 +30,12 @@
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 
 
+<!-- Toastr -->
+<script src="{{ asset('js/toastr.min.js') }}"></script>
+
+<!-- jquery-confirm -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
 
 <script>
     $(function () {

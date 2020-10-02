@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Toastr;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+
+    }
+    
+    
     /**
      * Display a listing of the resource.
      *
@@ -40,6 +47,7 @@ class UserController extends Controller
         $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
         $input['password'] = bcrypt($request->password);
         $user = User::create($input);
+        Toastr::success('User created successfully','Success');
         return redirect()->route('users.index');
 
     }
@@ -80,6 +88,7 @@ class UserController extends Controller
         $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
         $user = User::find($id);
         $user->fill($input)->update();
+        Toastr::success('User updated successfully','Success');
         return redirect()->route('users.index');
     }
 
@@ -98,6 +107,10 @@ class UserController extends Controller
 
     public function delete($id)
     {
-
+        User::find($id)->delete();
+        Toastr::success('User deleted successfully','Success');
+        return [
+            'msg' => 'success'
+        ];
     }
 }

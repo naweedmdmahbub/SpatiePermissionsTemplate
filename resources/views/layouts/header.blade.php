@@ -25,4 +25,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
+    <!-- jquery-confirm -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 </head>
