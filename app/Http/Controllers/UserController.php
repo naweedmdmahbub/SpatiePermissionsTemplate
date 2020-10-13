@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateUserRequest;
 use App\User;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Toastr;
 use Illuminate\Http\Request;
 
@@ -42,14 +45,21 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateUserRequest $request)
     {
-        $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
-        $input['password'] = bcrypt($request->password);
-        $user = User::create($input);
-        Toastr::success('User created successfully','Success');
-        return redirect()->route('users.index');
-
+        try{
+            $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
+            $input['password'] = bcrypt($request->password);
+            DB::beginTransaction();
+            $user = User::create($input);
+            Toastr::success('User created successfully','Success');
+            DB::commit();
+            return redirect()->route('users.index');
+        }catch (Exception $ex){
+            DB::rollBack();
+            Toastr::warning('User Create Failed');
+            return redirect()->back()->withErrors(new \Illuminate\Support\MessageBag(['catch_exception'=>$ex->getMessage()]));
+        }
     }
 
     /**
@@ -83,13 +93,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateUserRequest $request, $id)
     {
-        $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
-        $user = User::find($id);
-        $user->fill($input)->update();
-        Toastr::success('User updated successfully','Success');
-        return redirect()->route('users.index');
+        try{
+            $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
+            $user = User::find($id);
+            $user->fill($input)->update();
+            Toastr::success('User updated successfully','Success');
+            return redirect()->route('users.index');
+        }catch (Exception $ex){
+            DB::rollBack();
+            Toastr::warning('User Update Failed');
+            return redirect()->back()->withErrors(new \Illuminate\Support\MessageBag(['catch_exception'=>$ex->getMessage()]));
+        }
     }
 
 

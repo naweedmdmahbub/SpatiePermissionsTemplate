@@ -30,6 +30,15 @@
                 <div class="card-header">
                     <h3 class="card-title">User / create</h3>
                 </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <form class="form-horizontal" action="{{ route('users.store') }}" method="POST">
                     {{ csrf_field() }}

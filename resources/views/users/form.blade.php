@@ -28,7 +28,8 @@
         <div class="form-group row">
             <label for="password" class="col-sm-2 col-form-label">Password</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="password" placeholder="Password">
+                <input type="password" class="form-control" name="password" placeholder="Password"
+                       autocomplete="false" readonly onfocus="this.removeAttribute('readonly');">
             </div>
         </div>
     @endif
@@ -59,3 +60,9 @@
     </div>
 </div>
 <!-- /.card-body -->
+
+<script>
+    $( document ).ready(function() {
+        $('input').attr('autocomplete','off');
+    });
+</script>
