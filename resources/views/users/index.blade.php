@@ -26,11 +26,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Users List</h3>
-                            <div style="text-align: right">
-                                <a class="btn btn-default" href="{{route('users.create')}}">
-                                    <i class="fa fa-plus"></i> Add User
-                                </a>
-                            </div>
+                            @can('users.create')
+                                <div style="text-align: right">
+                                    <a class="btn btn-default" href="{{route('users.create')}}">
+                                        <i class="fa fa-plus"></i> Add User
+                                    </a>
+                                </div>
+                            @endcan
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -55,13 +57,17 @@
                                         <td>{{ $user->address }}</td>
                                         <td>{{ $user->phone }}</td>
                                         <td>{{ $user->salary }}</td>
-                                        @if(auth('web') )
-                                            <td>
+                                        <td>
+                                            @can('users.view')
                                                 <a href="{{ route('users.show',$user->id) }}" class="btn btn-warning">View</a>
+                                            @endcan
+                                            @can('users.edit')
                                                 <a href="{{ route('users.edit',$user->id) }}" class="btn btn-info">Edit</a>
+                                            @endcan
+                                            @can('users.delete')
                                                 <button class="btn btn-danger delete-confirm" data-id="{{ $user->id }}">Delete</button>
-                                            </td>
-                                        @endif
+                                            @endcan
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

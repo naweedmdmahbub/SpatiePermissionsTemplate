@@ -24,6 +24,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (!auth()->user()->can('users.view')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $users = User::all();
         return view('users.index',compact('users'));
     }
@@ -35,6 +39,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->can('users.create')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $user = new User();
         return view('users.create', compact('user' ));
     }
@@ -47,6 +55,10 @@ class UserController extends Controller
      */
     public function store(StoreUpdateUserRequest $request)
     {
+        if (!auth()->user()->can('users.create')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         try{
             $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
             $input['password'] = bcrypt($request->password);
@@ -70,6 +82,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if (!auth()->user()->can('users.view')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $user = User::find($id);
         return view('users.view', compact('user'));
     }
@@ -82,6 +98,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if (!auth()->user()->can('users.edit')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $user = User::find($id);
         return view('users.edit', compact('user'));
     }
@@ -95,6 +115,10 @@ class UserController extends Controller
      */
     public function update(StoreUpdateUserRequest $request, $id)
     {
+        if (!auth()->user()->can('users.edit')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         try{
             $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
             $user = User::find($id);
@@ -123,6 +147,10 @@ class UserController extends Controller
 
     public function delete($id)
     {
+        if (!auth()->user()->can('users.delete')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         User::find($id)->delete();
         Toastr::success('User deleted successfully','Success');
         return [
