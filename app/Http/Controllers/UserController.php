@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUpdateUserRequest;
 use App\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Toastr;
 use Illuminate\Http\Request;
 
@@ -43,8 +44,9 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $roles = Role::all();
         $user = new User();
-        return view('users.create', compact('user' ));
+        return view('users.create', compact('user', 'roles'));
     }
 
     /**
@@ -62,8 +64,10 @@ class UserController extends Controller
         try{
             $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
             $input['password'] = bcrypt($request->password);
+            $role = Role::find($request->role_id);
             DB::beginTransaction();
             $user = User::create($input);
+            $user->assignRole($role);
             Toastr::success('User created successfully','Success');
             DB::commit();
             return redirect()->route('users.index');
@@ -86,8 +90,9 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $user = User::find($id);
-        return view('users.view', compact('user'));
+        $roles = Role::all();
+        $user = User::with('roles')->find($id);
+        return view('users.view', compact('user','roles'));
     }
 
     /**
@@ -102,8 +107,9 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $roles = Role::all();
         $user = User::find($id);
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user','roles'));
     }
 
     /**
@@ -121,9 +127,13 @@ class UserController extends Controller
 
         try{
             $input = $request->only('username', 'fullname', 'email', 'address', 'phone', 'salary');
+            $role = Role::find($request->role_id);
+            DB::beginTransaction();
             $user = User::find($id);
             $user->fill($input)->update();
+            $user->syncRoles($role);
             Toastr::success('User updated successfully','Success');
+            DB::commit();
             return redirect()->route('users.index');
         }catch (Exception $ex){
             DB::rollBack();
@@ -151,7 +161,9 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        User::find($id)->delete();
+        $user = User::find($id);
+        $user->roles()->detach();
+        $user->delete();
         Toastr::success('User deleted successfully','Success');
         return [
             'msg' => 'success'

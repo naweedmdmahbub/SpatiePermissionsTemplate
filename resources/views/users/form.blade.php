@@ -58,6 +58,31 @@
                    @if (Route::currentRouteName() == 'users.show') readonly @endif>
         </div>
     </div>
+
+
+
+    <div class="form-group row">
+        <label for="role" class="col-sm-2 col-form-label">Role</label>
+        @if (Route::currentRouteName() == 'users.show')
+            <select class="form-control col-sm-10" name="role_id" disabled>
+                @foreach($roles as $role)
+                    <option value="{{ $role->id }}" @if(isset($user->roles) && $user->roles->first()->id == $role->id) selected @endif>
+                        {{ $role->name }}
+                    </option>
+                @endforeach
+            </select>
+        @else
+            <select class="form-control col-sm-10" name="role_id">
+                <option value="">-- Please Select a Role --</option>
+                @foreach($roles as $role)
+                    <option value="{{ $role->id }}"
+                            @if(isset($user->roles) && $user->roles->first() && $user->roles->first()->id == $role->id) selected @endif>
+                        {{ $role->name }}
+                    </option>
+                @endforeach
+            </select>
+        @endif
+    </div>
 </div>
 <!-- /.card-body -->
 
