@@ -46,19 +46,19 @@
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-table"></i>
-                            <p>Users<i class="fas fa-angle-left right"></i></p>
+                            <p>User Management<i class="fas fa-angle-left right"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('users.index') }}" class="nav-link">
                                     <i class="fas fa-list"></i>
-                                    <p>Users List</p>
+                                    <p>Users</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('users.create') }}" class="nav-link">
-                                    <i class="fas fa-plus-circle"></i>
-                                    <p>Add User</p>
+                                <a href="{{ route('roles.index') }}" class="nav-link">
+                                    <i class="fas fa-list"></i>
+                                    <p>Roles</p>
                                 </a>
                             </li>
                         </ul>
