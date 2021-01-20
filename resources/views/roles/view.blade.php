@@ -42,4 +42,10 @@
     </section>
     <!-- /.content -->
 
+
+    <script>
+        $(function () {
+            $( "input:checkbox" ).css( "cursor", "not-allowed" );
+        })
+    </script>
 @endsection

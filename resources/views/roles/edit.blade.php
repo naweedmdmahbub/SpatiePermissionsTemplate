@@ -58,4 +58,24 @@
     </section>
     <!-- /.content -->
 
+
+    <script>
+        $(document).ready(function () {
+            $( "form" ).on( "submit", function( event ) {
+                event.preventDefault();
+                var data = $( this ).serialize();
+                console.log( data );
+                console.log( $(this).attr('action') );
+                $.ajax({
+                    method: "POST",
+                    url: $(this).attr('action'),
+                    data: data,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success == true) window.location.href = "/roles";
+                    }
+                })
+            });
+        })
+    </script>
 @endsection

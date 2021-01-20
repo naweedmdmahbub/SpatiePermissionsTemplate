@@ -20,9 +20,11 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', 'UserController');
-    Route::post('/users/delete/{id}', 'UserController@delete');
+    Route::post('/users/delete/{id}', 'UserController@delete')->name('users.delete');
     Route::resource('roles', 'RoleController');
-    Route::post('/roles/delete/{id}', 'RoleController@delete');
+    Route::post('/roles/delete/{id}', 'RoleController@delete')->name('roles.delete');
+    Route::get('/roles/check_users/{id}', 'RoleController@checkUsers')->name('roles.checkUsers');
+
 });
 
 //Route::resource('users', 'UserController')->middleware('web');

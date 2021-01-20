@@ -94,34 +94,59 @@
             var id = $(this).data("id");
             console.log('Clicking Delete',id);
 
-            $.confirm({
-                title: 'Warning!',
-                icon: 'fa fa-warning',
-                content: 'Are you sure? You wont be able to revert this!',
-                type: 'red',
-                typeAnimated: true,
-                buttons: {
-                    tryAgain: {
-                        text: 'Click Here',
-                        btnClass: 'btn-red',
-                        action: function(){
-                            $.ajax({
-                                method: 'POST',
-                                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                                url: '/roles/delete/' + id,
-                                success: function (response) {
-                                    if(response.msg){
-                                        console.log(response.msg,"ajax success response.msg")
-                                        location.reload()
+            $.ajax({
+                method: 'GET',
+                url: '/roles/check_users/'+id,
+                success: function (response) {
+                    if(response.success){
+                        $.confirm({
+                            title: 'Warning!',
+                            icon: 'fa fa-warning',
+                            content: 'Are you sure? You wont be able to revert this!',
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                tryAgain: {
+                                    text: 'Click Here',
+                                    btnClass: 'btn-red',
+                                    action: function(){
+                                        $.ajax({
+                                            method: 'POST',
+                                            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                                            url: '/roles/delete/' + id,
+                                            success: function (response) {
+                                                if(response.msg){
+                                                    console.log(response.msg,"ajax success response.msg")
+                                                    location.reload()
+                                                }
+                                            }
+                                        })
                                     }
+                                },
+                                close: function () {
                                 }
-                            })
-                        }
-                    },
-                    close: function () {
+                            }
+                        });
+                    }else {
+                        $.confirm({
+                            title: 'Encountered some problem!',
+                            content: response.msg,
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                tryAgain: {
+                                    text: 'Try again',
+                                    btnClass: 'btn-red',
+                                    action: function(){
+                                    }
+                                },
+                                close: function () {
+                                }
+                            }
+                        });
                     }
                 }
-            });
+            })
         });
     </script>
 

@@ -36,8 +36,9 @@ class RoleController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $role_permissions = [];
         $role = new Role();
-        return view('roles.create', compact( 'role'));
+        return view('roles.create', compact( 'role','role_permissions'));
     }
 
     /**
@@ -78,7 +79,12 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        if (!auth()->user()->can('roles.view')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $role = Role::with('permissions')->find($id);
+        $role_permissions = $role->permissions()->get()->pluck('name')->toArray();
+        return view('roles.view', compact( 'role','role_permissions'));
     }
 
     /**
@@ -93,9 +99,12 @@ class RoleController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $role = Role::with('permissions')->find($id);
-        $permissions = $role->permissions()->get()->pluck('name','id');
-        dd($role,$permissions );
+        $role_permissions = $role->permissions()->get()->pluck('name')->toArray();
+//        dd($role,$role_permissions );
+        return view('roles.edit', compact( 'role','role_permissions'));
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -111,10 +120,20 @@ class RoleController extends Controller
         }
 
         try{
-
+            DB::beginTransaction();
+            $role = Role::find($id);
+            $role->name = $request->name;
+            $role->syncPermissions($request->permissions);
+            $role->save();
+//            dd($role);
+            Toastr::success('Role updated successfully','Success');
+            DB::commit();
+            return [
+                'success' => true
+            ];
         }catch (Exception $ex){
             DB::rollBack();
-            Toastr::warning('Role Create Failed');
+            Toastr::warning('Role Update Failed');
             return redirect()->back()->withErrors(new \Illuminate\Support\MessageBag(['catch_exception'=>$ex->getMessage()]));
         }
     }
@@ -139,7 +158,32 @@ class RoleController extends Controller
      */
     public function delete($id)
     {
-        //
+//        dd($id);
+        if (!auth()->user()->can('roles.delete')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $role = Role::find($id);
+        $role->delete();
+        Toastr::success('Role deleted successfully','Success');
+        return [
+            'msg' => 'success'
+        ];
     }
 
+
+
+    public function checkUsers($id)
+    {
+        $role = Role::with('users')->find($id);
+        if(count($role->users)){
+            return [
+                'success' => false,
+                'msg' => 'This role is associated with few users. Please delete them first'
+            ];
+        }else{
+            return [
+                'success' => true
+            ];
+        }
+    }
 }

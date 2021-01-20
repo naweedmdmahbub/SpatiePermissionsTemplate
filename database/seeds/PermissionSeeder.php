@@ -18,30 +18,30 @@ class PermissionSeeder extends Seeder
         $role2 = Role::create(['name' => 'Manager']);
 
         Permission::create(['name' => 'users.create']);
+        Permission::create(['name' => 'users.view']);
         Permission::create(['name' => 'users.edit']);
         Permission::create(['name' => 'users.delete']);
-        Permission::create(['name' => 'users.view']);
         Permission::create(['name' => 'roles.create']);
+        Permission::create(['name' => 'roles.view']);
         Permission::create(['name' => 'roles.edit']);
         Permission::create(['name' => 'roles.delete']);
-        Permission::create(['name' => 'roles.view']);
         Permission::create(['name' => 'categories.create']);
+        Permission::create(['name' => 'categories.view']);
         Permission::create(['name' => 'categories.edit']);
         Permission::create(['name' => 'categories.delete']);
-        Permission::create(['name' => 'categories.view']);
         Permission::create(['name' => 'units.create']);
+        Permission::create(['name' => 'units.view']);
         Permission::create(['name' => 'units.edit']);
         Permission::create(['name' => 'units.delete']);
-        Permission::create(['name' => 'units.view']);
 
         $role1->givePermissionTo('users.create');
+        $role1->givePermissionTo('users.view');
         $role1->givePermissionTo('users.edit');
         $role1->givePermissionTo('users.delete');
-        $role1->givePermissionTo('users.view');
         $role1->givePermissionTo('roles.create');
+        $role1->givePermissionTo('roles.view');
         $role1->givePermissionTo('roles.edit');
         $role1->givePermissionTo('roles.delete');
-        $role1->givePermissionTo('roles.view');
 
         $role2->givePermissionTo('users.view');
 
