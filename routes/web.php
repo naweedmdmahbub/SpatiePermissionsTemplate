@@ -24,6 +24,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', 'RoleController');
     Route::post('/roles/delete/{id}', 'RoleController@delete')->name('roles.delete');
     Route::get('/roles/check_users/{id}', 'RoleController@checkUsers')->name('roles.checkUsers');
+    Route::resource('categories', 'CategoryController');
+    Route::post('/categories/delete/{id}', 'CategoryController@delete')->name('categories.delete');
+    Route::resource('units', 'UnitController');
+    Route::post('/units/delete/{id}', 'UnitController@delete')->name('units.delete');
 
 });
 
